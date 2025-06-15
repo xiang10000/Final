@@ -1,0 +1,440 @@
+﻿@model IEnumerable<第五組_期末作業.Models.Product>
+@{ // 您也可以將標題改為中文
+}
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 0;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 1400px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+                       
+        h2 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+                
+        p {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        a[href*="Create"] {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white !important;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        a[href*="Create"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(79, 172, 254, 0.4);
+        }
+
+        a[href*="Create"]::before {
+            content: '\f067';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+                
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .table {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+            padding: 20px 15px;
+            border: none;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .table th::before {
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+
+        .table th:nth-child(1)::before { content: '\f292'; } 
+        .table th:nth-child(2)::before { content: '\f02b'; } 
+        .table th:nth-child(3)::before { content: '\f02a'; } 
+        .table th:nth-child(4)::before { content: '\f53f'; } 
+        .table th:nth-child(5)::before { content: '\f155'; } 
+        .table th:nth-child(6)::before { content: '\f0d6'; }  
+        .table th:nth-child(7)::before { content: '\f547'; } 
+        .table th:nth-child(8)::before { content: '\f496'; } 
+        .table th:nth-child(9)::before { content: '\f1b2'; } 
+        .table th:nth-child(10)::before { content: '\f073'; } 
+        .table th:nth-child(11)::before { content: '\f073'; } 
+        .table th:nth-child(12)::before { content: '\f2c2'; } 
+        .table th:nth-child(13)::before { content: '\f073'; } 
+
+        .table td {
+            padding: 18px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            transform: scale(1.01);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .table td:first-child {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .table td:nth-child(2) {
+            font-weight: 600;
+            color: #2c3e50;
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .table td:nth-child(4) {
+            position: relative;
+        }
+
+        .table td:nth-child(4):not(:empty)::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 2px solid #ddd;
+        }
+
+        .table td:nth-child(5),
+        .table td:nth-child(6) {
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        .table td:nth-child(5)::before,
+        .table td:nth-child(6)::before {
+            content: '$';
+            color: #27ae60;
+            font-weight: 700;
+        }
+                
+        .table td:nth-child(10),
+        .table td:nth-child(13) {
+            font-family: 'Courier New', monospace;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .table td:nth-child(12) {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* 刪除按鈕樣式 */
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+            border: none !important;
+            border-radius: 25px !important;
+            padding: 10px 20px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 5px 15px rgba(250, 112, 154, 0.3) !important;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(250, 112, 154, 0.4) !important;
+        }
+
+        .btn-danger::before {
+            content: '\f2ed';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+
+       
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 1200px;
+            }
+        }
+
+        
+
+            .table th,
+            .table td {
+                padding: 12px 8px;
+                font-size: 0.85rem;
+            }
+
+            .table td:nth-child(12) {
+                max-width: 80px;
+            }
+        }
+
+        /* 載入動畫 */
+        .table tbody tr {
+            animation: slideInLeft 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+
+
+        /* 空狀態樣式 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* 統計資訊 */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 150px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <h2>產品列表</h2>
+
+            <!-- 統計資訊 -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="number">@(Model?.Count() ?? 0)</div>
+                    <div class="label">總產品數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">@(Model?.Where(p => !string.IsNullOrEmpty(p.Color)).Count() ?? 0)</div>
+                    <div class="label">有顏色產品</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">@(Model?.Where(p => p.ListPrice > 0).Count() ?? 0)</div>
+                    <div class="label">已定價產品</div>
+                </div>
+            </div>
+
+            <p>
+                @Html.ActionLink("建立新產品", "Create")
+            </p>
+
+            <div class="table-container">
+                @if (Model != null && Model.Any())
+                {
+                    <table class="table">
+                        <tr>
+                            <th>產品ID</th>
+                            <th>產品名稱</th>
+                            <th>產品代碼</th>
+                            <th>顏色</th>
+                            <th>標準成本</th>
+                            <th>定價</th>
+                            <th>尺寸</th>
+                            <th>重量</th>
+                            <th>模型ID</th>
+                            <th>上架日期</th>
+                            <th>下架日期</th>
+                            <th>唯一識別碼</th>
+                            <th>修改日期</th>
+                            <th></th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ProductID</td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProductNumber)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Color)</td>
+                                <td>@Html.DisplayFor(modelItem => item.StandardCost)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ListPrice)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Size)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Weight)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProductModelID)</td>
+                                <td>@DateTime.Parse(item.SellStartDate.ToString()).ToShortDateString()</td>
+                                <td>@Html.DisplayFor(modelItem => item.SellEndDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.rowguid)</td>
+                                <td>@DateTime.Parse(item.ModifiedDate.ToString()).ToShortDateString()</td>
+                                <td>
+                                    @Html.ActionLink("刪除", "Delete", new { ProductID = item.ProductID }, new { onclick = "return confirm('確定刪除?')", @class = "btn btn-danger" })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h3>目前沒有產品資料</h3>
+                        <p>點擊上方「建立新產品」按鈕來新增第一個產品</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 動態顏色標籤
+        document.addEventListener('DOMContentLoaded', function () {
+            const colorCells = document.querySelectorAll('.table td:nth-child(4)');
+            const colorMap = {
+                '紅色': '#e74c3c', '紅': '#e74c3c', 'Red': '#e74c3c',
+                '藍色': '#3498db', '藍': '#3498db', 'Blue': '#3498db',
+                '綠色': '#2ecc71', '綠': '#2ecc71', 'Green': '#2ecc71',
+                '黃色': '#f1c40f', '黃': '#f1c40f', 'Yellow': '#f1c40f',
+                '黑色': '#34495e', '黑': '#34495e', 'Black': '#34495e',
+                '白色': '#ecf0f1', '白': '#ecf0f1', 'White': '#ecf0f1',
+                '灰色': '#95a5a6', '灰': '#95a5a6', 'Gray': '#95a5a6',
+                '紫色': '#9b59b6', '紫': '#9b59b6', 'Purple': '#9b59b6',
+                '橙色': '#e67e22', '橙': '#e67e22', 'Orange': '#e67e22'
+            };
+
+            colorCells.forEach(cell => {
+                const colorText = cell.textContent.trim();
+                if (colorText && colorMap[colorText]) {
+                    const colorDot = cell.querySelector('::before') || document.createElement('span');
+                    cell.style.setProperty('--color-dot', colorMap[colorText]);
+                    cell.querySelector('::before').style.backgroundColor = colorMap[colorText];
+                }
+            });
+
+            // 表格行點擊效果
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function (e) {
+                    if (!e.target.classList.contains('btn')) {
+                        this.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))';
+                        setTimeout(() => {
+                            this.style.background = '';
+                        }, 200);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
